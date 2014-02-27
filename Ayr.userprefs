@@ -1,12 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controller.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Health.cs">
     <Files>
-      <File FileName="Assets\Speed.cs" Line="35" Column="47" />
-      <File FileName="Assets\Energy.cs" Line="20" Column="12" />
-      <File FileName="Assets\Health.cs" Line="32" Column="12" />
-      <File FileName="Assets\Controller.cs" Line="51" Column="68" />
-      <File FileName="Assets\MouseLook.cs" Line="63" Column="2" />
+      <File FileName="Assets\Health.cs" Line="82" Column="28" />
+      <File FileName="Assets\Speed.cs" Line="54" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

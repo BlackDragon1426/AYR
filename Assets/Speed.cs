@@ -9,6 +9,7 @@ public class Speed : MonoBehaviour
 	public float currentSpeed;
 	public float energyBonus;
 	public float currentHealth;
+	public bool canMove = true;
 
 	float sprintingMult;
 	public float sprintingScale = 1;
@@ -50,7 +51,7 @@ public class Speed : MonoBehaviour
 		currentSpeed += energyBonus;
 
 		speedFinal = grounded ? currentSpeed : energyBonus;
-
+		speedFinal = canMove ? speedFinal : 0;
 		controller.speed = speedFinal;
 	}
 }
