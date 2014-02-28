@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
 	[Range(0f, 1000f)]
 	public float health = 1000;
 
-	float headHealth = 1000;
+	float headHealth = 250;
 	bool headDead = false;
 	
 	float lHandHealth = 25;
@@ -23,17 +23,19 @@ public class Health : MonoBehaviour
 	
 	float coreHealth = 1000;
 	
-	float lUpperlegHealth = 225;
+	float lUpperlegHealth = 200;
 	float lLowerlegHealth = 125;
 	float lFootHealth = 75;
 	float lLegHealth;
 	bool lLegDead = false;
 	
-	float rUpperlegHealth = 225;
+	float rUpperlegHealth = 200;
 	float rLowerlegHealth = 125;
 	float rFootHealth = 75;
 	float rLegHealth;
 	bool rLegDead = false;
+
+	float speedCripple = 0;
 
 	bool alive = true;
 
@@ -66,20 +68,23 @@ public class Health : MonoBehaviour
 			rLegDead = true;
 
 
-		if(health <= 0)
+		if(health <= 0 || headDead == true)
 			alive = false;
 		else
 			alive = true;
 
-		Speed.currentHealth = health / 1000;
+//		Speed.currentHealth = health / 1000;
 		if(alive == false || lLegDead == true && rLegDead == true)
 			Speed.canMove = false;
-		Speed.speedFinal *= lLegHealth + rLegHealth / 2 / 425;
 
-		if(rLegDead == true)
-			Speed.speedFinal *= 0.5f;
-		else if(lLegDead == true)
-			Speed.speedFinal *= 0.5f;
+		speedCripple = 0;
+
+		speedCripple += (lArmHealth + rArmHealth) / 2 / 275 * 0.15f;
+		speedCripple += (lLegHealth + rLegHealth) / 2 / 400 * 0.45f;
+		speedCripple += (coreHealth / 1000) * 0.40f;
+		speedCripple *= (headHealth / 250);
+		speedCripple = Mathf.Clamp01(speedCripple);
+		Debug.Log(speedCripple);
 	}
 }
 
