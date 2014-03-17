@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Speed.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\AYR\Assets\Controller.cs">
     <Files>
       <File FileName="Assets\Health.cs" Line="87" Column="27" />
       <File FileName="Assets\Speed.cs" Line="21" Column="1" />
+      <File FileName="..\AYR\Assets\Controller.cs" Line="85" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

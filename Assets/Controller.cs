@@ -15,7 +15,7 @@ public class Controller : MonoBehaviour
         public PhysicMaterial highFrictionMaterial;
     }
 
-    private CapsuleCollider capsule;                                                  
+    private SphereCollider sphere;                                                  
     private const float jumpRayLength = 0.7f;                                          
 	public bool grounded { get; private set; }
 	private Vector2 input;
@@ -26,7 +26,7 @@ public class Controller : MonoBehaviour
     void Awake ()
 	{
         // Set up a reference to the capsule collider.
-	    capsule = collider as CapsuleCollider;
+	    sphere = collider as SphereCollider;
 		grounded = true;
 
 		speedGrounded = GetComponent<Speed>();
@@ -48,7 +48,7 @@ public class Controller : MonoBehaviour
 		Ray ray = new Ray(transform.position , -transform.up);
 		
 		// Raycast slightly further than the capsule (as determined by jumpRayLength)
-		RaycastHit[] hits = Physics.RaycastAll(ray, capsule.height * 1.15f / 2);
+		RaycastHit[] hits = Physics.RaycastAll(ray, sphere.radius * 1.15f / 2);
 
 	       
         float nearest = Mathf.Infinity;
@@ -72,7 +72,7 @@ public class Controller : MonoBehaviour
 			}
 		}
 
-		Debug.DrawRay(ray.origin, ray.direction * capsule.height, grounded ? Color.green : Color.red );
+		Debug.DrawRay(ray.origin, ray.direction * sphere.radius, grounded ? Color.green : Color.red );
 
 		speedGrounded.grounded = grounded;
 		
@@ -100,12 +100,12 @@ public class Controller : MonoBehaviour
 		rigidbody.velocity = desiredMove + Vector3.up * yv;
 
         // Use low/high friction depending on whether we're moving or not
-        if (desiredMove.magnitude > 0 || !grounded)
+        if (desiredMove.magnitude > 0)
 		{
             collider.material = advanced.zeroFrictionMaterial;
-			rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
+//			rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
 		}
-		else
+		else if (desiredMove.magnitude == 0 && !grounded)
 		{
 			collider.material = advanced.highFrictionMaterial;
 		}
