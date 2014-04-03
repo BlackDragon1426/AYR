@@ -84,6 +84,7 @@ public class Health : MonoBehaviour
 		speedCripple += (coreHealth / 1000) * 0.4f;
 		speedCripple *= (headHealth / 250);
 		speedCripple = Mathf.Clamp01(speedCripple);
+		Speed.currentHealth = speedCripple;
 	}
 }
 

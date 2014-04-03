@@ -45,59 +45,41 @@ public class Controller : MonoBehaviour
         // Ground Check:
 
 		// Create a ray that points down from the centre of the character.
-		Ray ray = new Ray(transform.position + new Vector3(0,1,0), -transform.up);
+		Ray ray = new Ray(transform.position + new Vector3(0,2,0), -transform.up);
 		
 		// Raycast slightly further than the capsule (as determined by jumpRayLength)
-		RaycastHit[] hits = Physics.RaycastAll(ray, 1);
+		RaycastHit[] hits = Physics.RaycastAll(ray, 2);
 
-	       
         float nearest = Mathf.Infinity;
+		float collisionHeightDifference;
+
+		grounded = false;
+		rigidbody.useGravity = true;
 	
 		if (grounded || rigidbody.velocity.y < 0.1f)
 		{
-			// Default value if nothing is detected:
-			grounded = false;
-            
-            // Check every collider hit by the ray
 			for (int i = 0; i < hits.Length; i++)
 			{
-				// Check it's not a trigger
 				if (!hits[i].collider.isTrigger && hits[i].distance < nearest)
 				{
-					// The character is grounded, and we store the ground angle (calculated from the normal)
-					grounded = true;
 					nearest = hits[i].distance;
-					//Debug.DrawRay(transform.position, groundAngle * transform.forward, Color.green);
+					grounded = true;
+					rigidbody.useGravity = false;
 				}
 			}
 		}
+
+		collisionHeightDifference = 2 - nearest;
+		Debug.Log (collisionHeightDifference);
+
+		if(collisionHeightDifference < 0)
+			collisionHeightDifference = 0;
+		transform.position = transform.position + new Vector3(0, collisionHeightDifference, 0);
 
 		Debug.DrawRay(ray.origin, ray.direction * 1, grounded ? Color.green : Color.red );
 
 		speedGrounded.grounded = grounded;
 
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// ////////////////////////////////////////////////////////////////////
-		/// ////////////////////////////////////////////
-		/// //////////////////////////////////////////////
-		/// ///////////////////////////////
-		/// ///////////////////////////////
-		/// /////////////////////////
-//		if(nearest > 0.2f && nearest <= 1)
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			/// ////////////////////////////////////////////////////////////////////
-			/// ////////////////////////////////////////////
-			/// //////////////////////////////////////////////
-			/// ///////////////////////////////
-			/// ///////////////////////////////
-			/// /////////////////////////
 
             
             // normalize input if it exceeds 1 in combined length:
@@ -106,6 +88,7 @@ public class Controller : MonoBehaviour
 		// Get a vector which is desired move as a world-relative direction, including speeds
 		if(grounded)
 			desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed;
+		Debug.Log (desiredMove);
 
 
 		// preserving current y velocity (for falling, gravity)
@@ -116,7 +99,7 @@ public class Controller : MonoBehaviour
 		if (grounded && jump) {
 			yv += jumpPower;
 			rigidbody.AddForce(desiredMove * speed, ForceMode.VelocityChange);
-			grounded = false;
+//			grounded = false;
 		}
 			
 		rigidbody.velocity = desiredMove + Vector3.up * yv;
