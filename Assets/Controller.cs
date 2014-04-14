@@ -1,41 +1,40 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Controller : MonoBehaviour
 {
 	public float speed;
     private float jumpPower = 5f;
-
-//	[SerializeField] private AdvancedSettings advanced = new AdvancedSettings(); 
-	
-//	[System.Serializable]
-//    public class AdvancedSettings 
-//    {
-//        public float gravityMultiplier = 1f;
-//        public PhysicMaterial zeroFrictionMaterial;
-//        public PhysicMaterial highFrictionMaterial;
-//    }
-
-//    private SphereCollider sphere;                                                  
+                                              
     private const float jumpRayLength = 0.7f;                                          
 	public bool grounded { get; private set; }
 	private Vector2 input;
 	Vector3 desiredMove;
 
-	public Speed speedGrounded;
+	public Speed speedScript;
+
+	IEnumerator GroundCheck()
+	{
+		int e = 0;
+		while(true)
+		{
+			e++;
+			print("e = " + e);
+			yield return null;
+			
+		}
+	}
 
     void Awake ()
 	{
-        // Set up a reference to the capsule collider.
-//	    sphere = collider as SphereCollider;
 		grounded = true;
+		StartCoroutine (GroundCheck());
 
-		speedGrounded = GetComponent<Speed>();
+		speedScript = GetComponent<Speed>();
 	}
-
 	
 	public void FixedUpdate ()
 	{
-        // Read input
 		float h = Input.GetAxis("Horizontal");
 		float v = Input.GetAxis("Vertical");
 		bool jump = Input.GetButton("Jump");
@@ -52,6 +51,7 @@ public class Controller : MonoBehaviour
 
         float nearest = Mathf.Infinity;
 		float collisionHeightDifference;
+		int closestRay = 0;
 
 		grounded = false;
 		rigidbody.useGravity = true;
@@ -65,20 +65,31 @@ public class Controller : MonoBehaviour
 					nearest = hits[i].distance;
 					grounded = true;
 					rigidbody.useGravity = false;
+					closestRay = i;
 				}
 			}
 		}
 
 		collisionHeightDifference = 2 - nearest;
-		Debug.Log (collisionHeightDifference);
+//		Debug.Log (collisionHeightDifference);
 
 		if(collisionHeightDifference < 0)
 			collisionHeightDifference = 0;
-		transform.position = transform.position + new Vector3(0, collisionHeightDifference, 0);
+
+//		if(collisionHeightDifference < 2)
+//			transform.localPosition += hits[closestRay].point * Time.deltaTime;
+		if(hits[closestRay].distance > 2)
+		{
+		Vector3 lockedTransformHeight = hits[closestRay].point - new Vector3(0,0.8f,0);
+		if(collisionHeightDifference > 0.8)
+			transform.position = lockedTransformHeight;
+		}
+
+
 
 		Debug.DrawRay(ray.origin, ray.direction * 1, grounded ? Color.green : Color.red );
 
-		speedGrounded.grounded = grounded;
+		speedScript.grounded = grounded;
 
 
             
@@ -104,15 +115,5 @@ public class Controller : MonoBehaviour
 			
 		rigidbody.velocity = desiredMove + Vector3.up * yv;
 
-        // Use low/high friction depending on whether we're moving or not
-//        if (desiredMove.magnitude > 0)
-//		{
-//          collider.material = advanced.zeroFrictionMaterial;
-//			rigidbody.AddForce(Physics.gravity * (advanced.gravityMultiplier - 1));
-//		}
-//		else if (desiredMove.magnitude == 0 && !grounded)
-//		{
-//			collider.material = advanced.highFrictionMaterial;
-//		}
 	}
 }
