@@ -15,11 +15,8 @@ public class Controller : MonoBehaviour
 
 	IEnumerator GroundCheck()
 	{
-		int e = 0;
 		while(true)
 		{
-			e++;
-			print("e = " + e);
 			yield return null;
 			
 		}
@@ -27,7 +24,6 @@ public class Controller : MonoBehaviour
 
     void Awake ()
 	{
-		grounded = true;
 		StartCoroutine (GroundCheck());
 
 		speedScript = GetComponent<Speed>();
@@ -44,10 +40,10 @@ public class Controller : MonoBehaviour
         // Ground Check:
 
 		// Create a ray that points down from the centre of the character.
-		Ray ray = new Ray(transform.position + new Vector3(0,2,0), -transform.up);
+		Ray ray = new Ray(transform.position + new Vector3(0,1,0), -transform.up);
 		
 		// Raycast slightly further than the capsule (as determined by jumpRayLength)
-		RaycastHit[] hits = Physics.RaycastAll(ray, 2);
+		RaycastHit[] hits = Physics.RaycastAll(ray, 1);
 
         float nearest = Mathf.Infinity;
 		float collisionHeightDifference;
@@ -70,20 +66,18 @@ public class Controller : MonoBehaviour
 			}
 		}
 
-		collisionHeightDifference = 2 - nearest;
-//		Debug.Log (collisionHeightDifference);
+		collisionHeightDifference = 1 - nearest;
+		Debug.Log (collisionHeightDifference);
 
 		if(collisionHeightDifference < 0)
 			collisionHeightDifference = 0;
 
-//		if(collisionHeightDifference < 2)
-//			transform.localPosition += hits[closestRay].point * Time.deltaTime;
-		if(hits[closestRay].distance > 2)
-		{
-		Vector3 lockedTransformHeight = hits[closestRay].point - new Vector3(0,0.8f,0);
-		if(collisionHeightDifference > 0.8)
-			transform.position = lockedTransformHeight;
-		}
+//			transform.Translate(0,hits[closestRay].point.y + 1 * Time.deltaTime,0);
+
+
+//			Vector3 lockedTransformHeight = hits[closestRay].point - new Vector3(0,0.8f,0);
+//			if(collisionHeightDifference > 0.8)
+//				transform.position = lockedTransformHeight;
 
 
 
@@ -97,9 +91,8 @@ public class Controller : MonoBehaviour
 		if (input.sqrMagnitude > 1) input.Normalize();
 
 		// Get a vector which is desired move as a world-relative direction, including speeds
-		if(grounded)
+//		if(grounded)
 			desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed;
-		Debug.Log (desiredMove);
 
 
 		// preserving current y velocity (for falling, gravity)
@@ -107,13 +100,14 @@ public class Controller : MonoBehaviour
 
 
 		// add jump power
-		if (grounded && jump) {
+		if (grounded && jump)
+		{
 			yv += jumpPower;
-			rigidbody.AddForce(desiredMove * speed, ForceMode.VelocityChange);
-//			grounded = false;
+			rigidbody.AddForce(rigidbody.velocity, ForceMode.VelocityChange);
 		}
-			
-		rigidbody.velocity = desiredMove + Vector3.up * yv;
 
+//		transform.position = Vector3.up * (hits[closestRay].point.y * Time.deltaTime);
+		rigidbody.velocity = desiredMove + Vector3.up * yv;
+		transform.Translate(0,collisionHeightDifference * 3 * Time.deltaTime,0);
 	}
 }

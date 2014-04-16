@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ASSSKLLKSKLSKLSKLL.cs" />
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\Energy.cs" />
      <Compile Include="Assets\Health.cs" />
