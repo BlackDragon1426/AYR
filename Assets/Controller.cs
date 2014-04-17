@@ -8,11 +8,9 @@ public class Controller : MonoBehaviour
 	private float yv;
 
 	float nearest;
-	float collisionHeightDifference;
+	float squatingDistance;
 	int closestRay = 0;
                                               
-    private const float jumpRayLength = 0.7f;   
-
 	bool _grounded;
 	public bool grounded
 	{
@@ -26,9 +24,9 @@ public class Controller : MonoBehaviour
 
 			if(_grounded == true)
 			{
-//				rigidbody.AddForce(-Physics.gravity * (1 + collisionHeightDifference));
+//				rigidbody.AddForce(-Physics.gravity * (1 + squatingDistance));
 				rigidbody.useGravity = false;
-				rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * 10;
+//				rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * 10;
 			}
 			else if(_grounded == false)
 			{
@@ -66,12 +64,8 @@ public class Controller : MonoBehaviour
 
 		input = new Vector2( h, v );
 
-        // Ground Check:
-
-		// Create a ray that points down from the centre of the character.
 		Ray ray = new Ray(transform.position + new Vector3(0,1,0), -transform.up);
-		
-		// Raycast slightly further than the capsule (as determined by jumpRayLength)
+
 		RaycastHit[] hits = Physics.RaycastAll(ray, 1);
 
 		nearest = Mathf.Infinity;
@@ -86,53 +80,41 @@ public class Controller : MonoBehaviour
 				if (!hits[i].collider.isTrigger && hits[i].distance < nearest)
 				{
 					nearest = hits[i].distance;
+
 					if(!grounded)
 						grounded = true;
+
 					closestRay = i;
 				}
 
 			}
 		}
 
-		collisionHeightDifference = 1 - nearest;
-		Debug.Log (collisionHeightDifference);
+		squatingDistance = 1 - nearest;
+		Debug.Log (squatingDistance);
 
-		if(collisionHeightDifference < 0)
-			collisionHeightDifference = 0;
-
-//			transform.Translate(0,hits[closestRay].point.y + 1 * Time.deltaTime,0);
-
-
-//			Vector3 lockedTransformHeight = hits[closestRay].point - new Vector3(0,0.8f,0);
-//			if(collisionHeightDifference > 0.8)
-//				transform.position = lockedTransformHeight;
-
-
+		if(squatingDistance < 0)
+			squatingDistance = 0;
 
 		Debug.DrawRay(ray.origin, ray.direction * 1, grounded ? Color.green : Color.red );
 
-		speedScript.grounded = grounded;
-
-
-            
-            // normalize input if it exceeds 1 in combined length:
 		if (input.sqrMagnitude > 1) input.Normalize();
 
-
-
-
-		desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed;
-
-		yv = rigidbody.velocity.y;
+//		yv = rigidbody.velocity.y;
 
 		if (grounded && jump)
 		{
-			yv += jumpPower;
+			yv = jumpPower;
 		}
+		else 
+			yv = 0;
 
-//		transform.position = Vector3.up * (hits[closestRay].point.y * Time.deltaTime);
+		desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed + transform.up * yv;
 
-		rigidbody.velocity += desiredMove + Vector3.up * jumpPower;
-		transform.Translate(0,collisionHeightDifference * 3 * Time.deltaTime,0);
+		rigidbody.velocity = desiredMove + Physics.gravity;
+		transform.Translate(0,squatingDistance * 3 * Time.deltaTime,0);
+//		rigidbody.velocity -= rigidbody.velocity * 10 * Time.deltaTime;
+
+		speedScript.grounded = grounded;
 	}
 }
