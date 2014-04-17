@@ -5,26 +5,55 @@ public class Controller : MonoBehaviour
 {
 	public float speed;
     private float jumpPower = 5f;
+	private float yv;
+
+	float nearest;
+	float collisionHeightDifference;
+	int closestRay = 0;
                                               
-    private const float jumpRayLength = 0.7f;                                          
-	public bool grounded { get; private set; }
+    private const float jumpRayLength = 0.7f;   
+
+	bool _grounded;
+	public bool grounded
+	{
+		get
+		{
+			return _grounded;
+		}
+		set
+		{
+			_grounded = value;
+
+			if(_grounded == true)
+			{
+//				rigidbody.AddForce(-Physics.gravity * (1 + collisionHeightDifference));
+				rigidbody.useGravity = false;
+				rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * 10;
+			}
+			else if(_grounded == false)
+			{
+				rigidbody.AddForce(rigidbody.velocity.x,0,rigidbody.velocity.z, ForceMode.VelocityChange);
+				rigidbody.useGravity = true;
+			}
+		}
+	}
 	private Vector2 input;
-	Vector3 desiredMove;
+	Vector3 desiredMove = new Vector3(0,0,0);
 
 	public Speed speedScript;
 
-	IEnumerator GroundCheck()
-	{
-		while(true)
-		{
-			yield return null;
-			
-		}
-	}
+//	IEnumerator GroundCheck()
+//	{
+//		while(true)
+//		{
+//			yield return null;
+//			
+//		}
+//	}
 
     void Awake ()
 	{
-		StartCoroutine (GroundCheck());
+//		StartCoroutine (GroundCheck());
 
 		speedScript = GetComponent<Speed>();
 	}
@@ -45,12 +74,10 @@ public class Controller : MonoBehaviour
 		// Raycast slightly further than the capsule (as determined by jumpRayLength)
 		RaycastHit[] hits = Physics.RaycastAll(ray, 1);
 
-        float nearest = Mathf.Infinity;
-		float collisionHeightDifference;
-		int closestRay = 0;
+		nearest = Mathf.Infinity;
 
-		grounded = false;
 		rigidbody.useGravity = true;
+		grounded = false;
 	
 		if (grounded || rigidbody.velocity.y < 0.1f)
 		{
@@ -59,10 +86,11 @@ public class Controller : MonoBehaviour
 				if (!hits[i].collider.isTrigger && hits[i].distance < nearest)
 				{
 					nearest = hits[i].distance;
-					grounded = true;
-					rigidbody.useGravity = false;
+					if(!grounded)
+						grounded = true;
 					closestRay = i;
 				}
+
 			}
 		}
 
@@ -90,24 +118,21 @@ public class Controller : MonoBehaviour
             // normalize input if it exceeds 1 in combined length:
 		if (input.sqrMagnitude > 1) input.Normalize();
 
-		// Get a vector which is desired move as a world-relative direction, including speeds
-//		if(grounded)
-			desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed;
 
 
-		// preserving current y velocity (for falling, gravity)
-		float yv = rigidbody.velocity.y;
 
+		desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed;
 
-		// add jump power
+		yv = rigidbody.velocity.y;
+
 		if (grounded && jump)
 		{
 			yv += jumpPower;
-			rigidbody.AddForce(rigidbody.velocity, ForceMode.VelocityChange);
 		}
 
 //		transform.position = Vector3.up * (hits[closestRay].point.y * Time.deltaTime);
-		rigidbody.velocity = desiredMove + Vector3.up * yv;
+
+		rigidbody.velocity += desiredMove + Vector3.up * jumpPower;
 		transform.Translate(0,collisionHeightDifference * 3 * Time.deltaTime,0);
 	}
 }
