@@ -110,7 +110,9 @@ public class Controller : MonoBehaviour
 
 		desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed + transform.up * yv;
 
-		rigidbody.velocity = desiredMove + Physics.gravity;
+		Vector3 targetMovement = rigidbody.velocity + desiredMove;
+		rigidbody.velocity = targetMovement;
+		targetMovement -= desiredMove;
 		transform.Translate(0,squatingDistance * 3 * Time.deltaTime,0);
 //		rigidbody.velocity -= rigidbody.velocity * 10 * Time.deltaTime;
 

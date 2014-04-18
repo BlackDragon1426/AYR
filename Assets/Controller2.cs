@@ -5,6 +5,7 @@ public class Controller2 : MonoBehaviour
 {
 	float squatingDistance = 0;
 	public bool _grounded;
+	float time = 0;
 	bool grounded
 	{
 		get
@@ -35,21 +36,26 @@ public class Controller2 : MonoBehaviour
 		set
 		{
 			_grounded = value;
+
 			bool triggered = false;
 			if(!_grounded)
 			{
 				if(!triggered)
 				{
-					rigidbody.AddForce(rigidbody.velocity,ForceMode.VelocityChange);
+//					rigidbody.AddForce(rigidbody.velocity.x,0,rigidbody.velocity.z,ForceMode.VelocityChange);
 					triggered = true;
 
 				}
 				rigidbody.useGravity = true;
+
 			}
 			else if(_grounded == true)
 			{
 				rigidbody.useGravity = false;
+//				rigidbody.AddForce(0,squatingDistance * squatingDistance / 2 * time,0,ForceMode.VelocityChange);
+				transform.Translate(0,1 - squatingDistance * Time.fixedDeltaTime,0);
 				triggered = false;
+
 			}
 		}
 	}
@@ -57,13 +63,11 @@ public class Controller2 : MonoBehaviour
 	{
 		Debug.DrawRay(transform.position + new Vector3(0,1,0), new Vector3(0,-1,0), _grounded ? Color.green : Color.red );
 		grounded = grounded;
-		if(grounded == true)
+		if(!grounded)
 		{
-
-		}
-//		transform.Translate(0,squatingDistance * Time.deltaTime,0);
-//		rigidbody.AddForce (0,-rigidbody.velocity.y * squatingDistance,0,ForceMode.VelocityChange);
-		Debug.Log (squatingDistance);
-		rigidbody.velocity = rigidbody.velocity;
+			time += Time.fixedDeltaTime;
+		}	
+		Debug.Log(time + " Seconds since being in the air");
+//		rigidbody.velocity = rigidbody.velocity;
 	}
 }
