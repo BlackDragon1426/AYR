@@ -61,8 +61,8 @@ public class Controller2 : MonoBehaviour
 		{
 
 		}
-		transform.Translate(0,squatingDistance * Time.deltaTime,0);
-		rigidbody.AddForce (0,-rigidbody.velocity.y * squatingDistance,0,ForceMode.VelocityChange);
+//		transform.Translate(0,squatingDistance * Time.deltaTime,0);
+//		rigidbody.AddForce (0,-rigidbody.velocity.y * squatingDistance,0,ForceMode.VelocityChange);
 		Debug.Log (squatingDistance);
 		rigidbody.velocity = rigidbody.velocity;
 	}
