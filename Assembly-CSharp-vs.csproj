@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\ASSSKLLKSKLSKLSKLL.cs" />
      <Compile Include="Assets\Controller.cs" />
+     <Compile Include="Assets\Controller2.cs" />
      <Compile Include="Assets\Energy.cs" />
      <Compile Include="Assets\Health.cs" />
      <Compile Include="Assets\MouseLook.cs" />

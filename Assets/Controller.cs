@@ -91,7 +91,6 @@ public class Controller : MonoBehaviour
 		}
 
 		squatingDistance = 1 - nearest;
-		Debug.Log (squatingDistance);
 
 		if(squatingDistance < 0)
 			squatingDistance = 0;
