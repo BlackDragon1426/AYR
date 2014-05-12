@@ -26,7 +26,7 @@ public class Controller : MonoBehaviour
 
 
 
-
+		if (input.sqrMagnitude > 1) input.Normalize();
 
 		transform.Translate(input * speed * Time.deltaTime);
 		transform.position += momentum;
