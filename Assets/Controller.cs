@@ -19,8 +19,7 @@ public class Controller : MonoBehaviour
 	{
 		Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")); 
 		Vector3 velocity = new Vector3(0,0,0);
-		if(oldPosition != null)
-			velocity = oldPosition - transform.position;
+		velocity = oldPosition - transform.position;
 		oldPosition = transform.position;
 		Debug.Log("Current Velocity EveryFixedFrame " + velocity + " Actual speed " + velocity.sqrMagnitude / Time.deltaTime);
 
