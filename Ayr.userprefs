@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Controller3.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Temp\Compiled-Illumin-Diffuse.shader">
     <Files>
-      <File FileName="Assets\Scripts\Controller3.cs" Line="1" Column="1" />
-      <File FileName="Assets\SomethingCool.cs" Line="13" Column="21" />
+      <File FileName="Temp\Compiled-Illumin-Diffuse.shader" Line="27193" Column="1" />
+      <File FileName="Assets\FUCKINGHIPPIES.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

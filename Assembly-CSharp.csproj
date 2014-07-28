@@ -46,8 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CUBEPLAYERSCRIPT.cs" />
+     <Compile Include="Assets\Condition.cs" />
+     <Compile Include="Assets\FUCKINGHIPPIES.cs" />
      <Compile Include="Assets\Scripts\ASSSKLLKSKLSKLSKLL.cs" />
-     <Compile Include="Assets\Scripts\Condition.cs" />
      <Compile Include="Assets\Scripts\Controller.cs" />
      <Compile Include="Assets\Scripts\Controller2.cs" />
      <Compile Include="Assets\Scripts\Controller3.cs" />

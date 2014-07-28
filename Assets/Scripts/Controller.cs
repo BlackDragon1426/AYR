@@ -17,7 +17,7 @@ public class Controller : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")); 
+		Vector3 input = new Vector3(Input.GetAxis("MoveX"), 0, Input.GetAxis("MoveY")); 
 		Vector3 velocity = new Vector3(0,0,0);
 		velocity = oldPosition - transform.position;
 		oldPosition = transform.position;

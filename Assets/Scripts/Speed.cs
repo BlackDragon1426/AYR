@@ -28,12 +28,12 @@ public class Speed : MonoBehaviour
 	{
 		sprinting = Input.GetButton("Sprint");
 
-		if(sprinting && grounded && Input.GetAxis("Vertical") > 0)
+		if(sprinting && grounded && Input.GetAxis("MoveY") > 0)
 			sprintingScale += 0.333f * Time.deltaTime;
 		else if(grounded)
 			sprintingScale -= Time.deltaTime;
 
-		sprintingScale *= Input.GetAxis("Vertical");
+		sprintingScale *= Input.GetAxis("MoveY");
 
 		sprintingScale = Mathf.Clamp(sprintingScale, 1, 2);
 
