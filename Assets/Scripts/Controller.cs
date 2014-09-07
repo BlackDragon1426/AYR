@@ -5,8 +5,6 @@ public class Controller : MonoBehaviour
 {
 	Vector3 oldPosition;
 
-	Vector3 constantForce;
-
 	public Vector3 momentum;
 
 	public float speed;
