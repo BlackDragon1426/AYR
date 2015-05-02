@@ -12,9 +12,9 @@ public class ASSSKLLKSKLSKLSKLL : MonoBehaviour {
 	void FixedUpdate ()
 	{
 		if (Input.GetKeyDown(KeyCode.Q))
-			rigidbody.AddForce(0,10,0,ForceMode.VelocityChange);
+			GetComponent<Rigidbody>().AddForce(0,10,0,ForceMode.VelocityChange);
 		if (Input.GetKeyDown(KeyCode.E))
-			rigidbody.AddForce(10,0,10,ForceMode.VelocityChange);
+			GetComponent<Rigidbody>().AddForce(10,0,10,ForceMode.VelocityChange);
 		if(Input.GetKeyDown(KeyCode.Z))
 			transform.position = new Vector3(10,10,10);
 	}

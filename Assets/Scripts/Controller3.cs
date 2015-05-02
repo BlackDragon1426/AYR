@@ -25,13 +25,13 @@ public class Controller3 : MonoBehaviour
 			if(_grounded == true)
 			{
 //				rigidbody.AddForce(-Physics.gravity * (1 + squatingDistance));
-				rigidbody.useGravity = false;
+				GetComponent<Rigidbody>().useGravity = false;
 //				rigidbody.velocity -= rigidbody.velocity * Time.deltaTime * 10;
 			}
 			else if(_grounded == false)
 			{
-				rigidbody.AddForce(rigidbody.velocity.x,0,rigidbody.velocity.z, ForceMode.VelocityChange);
-				rigidbody.useGravity = true;
+				GetComponent<Rigidbody>().AddForce(GetComponent<Rigidbody>().velocity.x,0,GetComponent<Rigidbody>().velocity.z, ForceMode.VelocityChange);
+				GetComponent<Rigidbody>().useGravity = true;
 			}
 		}
 	}
@@ -70,10 +70,10 @@ public class Controller3 : MonoBehaviour
 
 		nearest = Mathf.Infinity;
 
-		rigidbody.useGravity = true;
+		GetComponent<Rigidbody>().useGravity = true;
 		grounded = false;
 	
-		if (grounded || rigidbody.velocity.y < 0.1f)
+		if (grounded || GetComponent<Rigidbody>().velocity.y < 0.1f)
 		{
 			for (int i = 0; i < hits.Length; i++)
 			{
@@ -110,8 +110,8 @@ public class Controller3 : MonoBehaviour
 
 		desiredMove = transform.forward * input.y * speed + transform.right * input.x * speed + transform.up * yv;
 
-		Vector3 targetMovement = rigidbody.velocity + desiredMove;
-		rigidbody.velocity = targetMovement;
+		Vector3 targetMovement = GetComponent<Rigidbody>().velocity + desiredMove;
+		GetComponent<Rigidbody>().velocity = targetMovement;
 		targetMovement -= desiredMove;
 		transform.Translate(0,squatingDistance * 3 * Time.deltaTime,0);
 //		rigidbody.velocity -= rigidbody.velocity * 10 * Time.deltaTime;

@@ -46,12 +46,12 @@ public class Controller2 : MonoBehaviour
 					triggered = true;
 
 				}
-				rigidbody.useGravity = true;
+				GetComponent<Rigidbody>().useGravity = true;
 
 			}
 			else if(_grounded == true)
 			{
-				rigidbody.useGravity = false;
+				GetComponent<Rigidbody>().useGravity = false;
 //				rigidbody.AddForce(0,squatingDistance * squatingDistance / 2 * time,0,ForceMode.VelocityChange);
 				transform.Translate(0,1 - squatingDistance * Time.fixedDeltaTime,0);
 				triggered = false;
